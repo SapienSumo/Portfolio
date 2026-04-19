@@ -79,7 +79,7 @@ export const filters = [
 ];
 
 export const spotlight = {
-  title: 'Tryotel App',
+  title: 'Placeholder App',
   category: 'Cross-Platform Travel Application',
   desc: 'A full-featured B2C travel app enabling hotel discovery, booking, and management across Android and iOS platforms. Built with Flutter for a seamless native experience.',
   tags: ['Flutter', 'Dart', 'Firebase', 'REST API'],

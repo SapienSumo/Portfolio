@@ -443,8 +443,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .filter-btn span { font-size: var(--text-xs); color: var(--text-subtle); }
 .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-.filter-btn--active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.filter-btn--active span { color: rgba(255,255,255,0.7); }
+.filter-btn--active,
+.filter-btn--active:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.filter-btn--active span,
+.filter-btn--active:hover span { color: rgba(255,255,255,0.7); }
 
 /* SPOTLIGHT */
 .work__spotlight {

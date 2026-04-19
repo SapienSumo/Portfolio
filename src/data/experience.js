@@ -1,10 +1,10 @@
 export const experience = [
   {
     id: 1,
-    role: 'Senior Lead Software Engineer',
-    company: 'Saimon Global Ltd',
-    period: '2019 — 2024',
-    location: 'Dhaka, Bangladesh',
+    role: 'Senior Software Engineer',
+    company: 'Nucleus Global',
+    period: '2017 — Present',
+    location: 'London, England',
     desc: 'Led the frontend team delivering scalable B2C/B2B travel tech solutions. Architected component systems, mentored junior developers, and drove engineering best practices across the organisation.',
     tags: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Dart', 'Flutter'],
   },

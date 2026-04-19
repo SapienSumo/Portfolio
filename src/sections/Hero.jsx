@@ -1,10 +1,11 @@
+import headshot from '../images/headshot.png';
+
 const FEATURED_ITEMS = [
   'Featured.com', 'Hostinger', 'Upwork', 'CareerFoundry',
   'Frontend Mentor', 'We Are Developers', 'Colorlib', 'Masai School', 'Blog du Web Design',
 ];
 
 export default function Hero() {
-  // Double items for seamless CSS loop
   const marquee = [...FEATURED_ITEMS, ...FEATURED_ITEMS];
 
   return (
@@ -22,12 +23,7 @@ export default function Hero() {
 
         <div className="hero__visual">
           <div className="hero__avatar">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="80" r="45" fill="var(--accent)" opacity="0.15"/>
-              <circle cx="100" cy="75" r="32" fill="var(--accent)" opacity="0.25"/>
-              <circle cx="100" cy="72" r="20" fill="var(--accent)" opacity="0.4"/>
-              <ellipse cx="100" cy="160" rx="55" ry="30" fill="var(--accent)" opacity="0.1"/>
-            </svg>
+            <img src={headshot} alt="Paul Aliu" />
           </div>
         </div>
       </div>

@@ -37,14 +37,14 @@
   --text:             #e8e8f0;
   --text-muted:       #6b6b80;
   --text-subtle:      #3a3a4a;
-  --accent:           #7c6aff;
-  --accent-hover:     #9580ff;
-  --accent-glow:      rgba(124, 106, 255, 0.15);
-  --accent-glow-strong: rgba(124, 106, 255, 0.3);
+  --accent:           #3f3a22;
+  --accent-hover:     #524d2d;
+  --accent-glow:      rgba(63, 58, 34, 0.25);
+  --accent-glow-strong: rgba(63, 58, 34, 0.45);
   --border:           #1e1e26;
-  --tag-bg:           rgba(124, 106, 255, 0.12);
-  --tag-text:         #a89aff;
-  --nav-prefix:       #7c6aff;
+  --tag-bg:           rgba(63, 58, 34, 0.35);
+  --tag-text:         #a89e6e;
+  --nav-prefix:       #a89e6e;
   --shadow:           0 4px 24px rgba(0, 0, 0, 0.4);
   --shadow-lg:        0 8px 48px rgba(0, 0, 0, 0.6);
 }
@@ -59,14 +59,14 @@
   --text:             #0c0c1a;
   --text-muted:       #6b6b80;
   --text-subtle:      #c0c0cc;
-  --accent:           #5a47f0;
-  --accent-hover:     #4535e0;
-  --accent-glow:      rgba(90, 71, 240, 0.1);
-  --accent-glow-strong: rgba(90, 71, 240, 0.2);
+  --accent:           #e0855a;
+  --accent-hover:     #cc6f43;
+  --accent-glow:      rgba(224, 133, 90, 0.12);
+  --accent-glow-strong: rgba(224, 133, 90, 0.28);
   --border:           #e4e4ec;
-  --tag-bg:           rgba(90, 71, 240, 0.08);
-  --tag-text:         #5a47f0;
-  --nav-prefix:       #5a47f0;
+  --tag-bg:           rgba(224, 133, 90, 0.1);
+  --tag-text:         #c46a3a;
+  --nav-prefix:       #e0855a;
   --shadow:           0 4px 24px rgba(0, 0, 0, 0.08);
   --shadow-lg:        0 8px 48px rgba(0, 0, 0, 0.12);
 }
@@ -166,8 +166,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   top: 0; left: 0; right: 0;
   z-index: 100;
   background: var(--header-bg);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition), background var(--transition-slow);
 }
@@ -192,20 +192,43 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .logo:hover { color: var(--accent); }
 
-.nav__list { display: flex; align-items: center; gap: 0.25rem; }
+.nav { position: relative; } /* pill anchors to this on desktop */
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Sliding pill — moves smoothly between active items */
+.nav__pill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-glow);
+  /* Spring-like easing: slight overshoot gives the "water lurching" feel */
+  transition:
+    left  0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.2s ease;
+  pointer-events: none;
+}
 
 .nav__link {
+  position: relative; /* sit above the pill */
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--text-muted);
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius-sm);
-  transition: color var(--transition), background var(--transition);
+  transition: color var(--transition);
   text-transform: lowercase;
 }
 
-.nav__link:hover,
-.nav__link.active { color: var(--text); background: var(--accent-glow); }
+.nav__link:hover { color: var(--text); }
+.nav__link.active { color: var(--text); }
 
 .nav__prefix { color: var(--nav-prefix); margin-right: 0.25rem; }
 
@@ -311,15 +334,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .hero__visual { display: flex; justify-content: center; }
 
 .hero__avatar {
-  width: 300px; height: 300px;
+  width: 300px;
+  height: 300px;
   border-radius: 50%;
   background: var(--card-bg);
   border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
   animation: float 6s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
-.hero__avatar svg { width: 200px; height: 200px; }
+.hero__avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -348,8 +374,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .featured__track-wrapper {
   overflow: hidden;
   flex: 1;
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .featured__track {
@@ -680,19 +706,80 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .footer__inner { display: flex; align-items: center; justify-content: space-between; }
 .footer p { font-size: var(--text-sm); color: var(--text-muted); }
 
+/* ── Scroll-to-top (fixed) ───────────────────────────────── */
 .scroll-top {
-  width: 36px; height: 36px;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-muted);
-  transition: all var(--transition);
   opacity: 0;
   pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease,
+              border-color 0.2s ease, color 0.2s ease,
+              background 0.2s ease, box-shadow 0.2s ease;
 }
-.scroll-top.visible { opacity: 1; pointer-events: auto; }
+
 .scroll-top svg { width: 16px; height: 16px; }
-.scroll-top:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); transform: translateY(-2px); }
+
+.scroll-top--visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* Pulse — glows in accent colour when user is at the bottom */
+.scroll-top--pulse {
+  border-color: var(--accent);
+  color: var(--accent);
+  animation: scroll-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--accent-glow-strong);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    transform: scale(1.08);
+  }
+}
+
+/* Bounce — bouncy-ball jump to grab attention */
+.scroll-top--bounce {
+  border-color: var(--accent);
+  color: var(--accent);
+  animation: scroll-bounce 1.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+@keyframes scroll-bounce {
+  0%   { transform: translateY(0)     scaleY(1);    }
+  8%   { transform: translateY(0)     scaleY(0.88); } /* squash before jump */
+  20%  { transform: translateY(-48px) scaleY(1.08); } /* first peak */
+  36%  { transform: translateY(0)     scaleY(0.92); } /* land + squash */
+  48%  { transform: translateY(-26px) scaleY(1.04); } /* second bounce */
+  60%  { transform: translateY(0)     scaleY(0.95); } /* land */
+  70%  { transform: translateY(-12px) scaleY(1);    } /* third small bounce */
+  80%  { transform: translateY(0)     scaleY(0.98); }
+  88%  { transform: translateY(-5px)  scaleY(1);    } /* tiny settle */
+  100% { transform: translateY(0)     scaleY(1);    }
+}
 
 /* ============================================================
    SCROLL REVEAL
@@ -724,8 +811,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     position: fixed;
     top: 64px; left: 0; right: 0;
     background: var(--header-bg);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 1rem;
     transform: translateY(-110%);
@@ -735,6 +822,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .nav.open { transform: translateY(0); }
 
   .nav__list { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  .nav__pill { display: none; }
   .nav__link { width: 100%; padding: 0.75rem 1rem; }
 
   .hero__inner { grid-template-columns: 1fr; text-align: center; }

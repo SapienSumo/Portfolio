@@ -1,6 +1,7 @@
 import { useTheme } from './hooks/useTheme';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import Hero from './sections/Hero';
 import Expertise from './sections/Expertise';
 import Work from './sections/Work';
@@ -29,6 +30,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

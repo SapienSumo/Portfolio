@@ -17,11 +17,11 @@ export default function Contact() {
   return (
     <section className="contact section" id="contact">
       <div className="container">
-        <h2 className="section__title">
+        <h2 className="section__title reveal">
           <span className="section__title-prefix">//</span> contact
         </h2>
 
-        <div className="contact__inner">
+        <div className="contact__inner reveal">
           {/* Left: info */}
           <div className="contact__text">
             <h3 className="contact__heading">Available for select freelance opportunities</h3>

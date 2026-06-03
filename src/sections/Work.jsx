@@ -47,11 +47,11 @@ export default function Work() {
   return (
     <section className="work section" id="work">
       <div className="container">
-        <h2 className="section__title">
+        <h2 className="section__title reveal">
           <span className="section__title-prefix">//</span> work
         </h2>
 
-        <p className="work__intro">
+        <p className="work__intro reveal">
           I&apos;ve built scalable <strong>travel, event and telemedicine</strong> applications used by
           thousands, and delivered <strong>140+ projects</strong> for <strong>50+ clients</strong> worldwide.
         </p>
@@ -70,7 +70,7 @@ export default function Work() {
         </div>
 
         {/* Spotlight */}
-        <div className="work__spotlight">
+        <div className="work__spotlight reveal">
           <p className="spotlight__label">Featured Project</p>
           <div className="spotlight__content">
             <div className="spotlight__info">

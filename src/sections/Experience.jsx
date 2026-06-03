@@ -4,11 +4,11 @@ export default function Experience() {
   return (
     <section className="experience section" id="experience">
       <div className="container">
-        <h2 className="section__title">
+        <h2 className="section__title reveal">
           <span className="section__title-prefix">//</span> experience
         </h2>
 
-        <div className="timeline">
+        <div className="timeline reveal">
           {experience.map(item => (
             <div key={item.id} className="timeline__item">
               <div className="timeline__dot" />

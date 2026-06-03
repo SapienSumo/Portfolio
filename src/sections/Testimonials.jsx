@@ -10,11 +10,11 @@ export default function Testimonials() {
   return (
     <section className="testimonials section">
       <div className="container">
-        <h2 className="section__title">
+        <h2 className="section__title reveal">
           <span className="section__title-prefix">//</span> what clients say
         </h2>
 
-        <div className="testimonials__grid">
+        <div className="testimonials__grid reveal">
           {testimonials.map(t => (
             <div
               key={t.id}

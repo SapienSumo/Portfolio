@@ -102,7 +102,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding-inline: 1.5rem;
 }
 
-.section { padding-block: 6rem; }
+.section { padding-block: 6rem; scroll-margin-top: 88px; }
 
 .section__title {
   font-family: var(--font-mono);
@@ -792,6 +792,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   REDUCED MOTION
+   Honour the OS-level "reduce motion" preference: stop infinite
+   animations, collapse transitions, and show revealed content
+   immediately so nothing stays hidden behind a disabled animation.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal { opacity: 1; transform: none; }
+}
 
 /* ============================================================
    RESPONSIVE

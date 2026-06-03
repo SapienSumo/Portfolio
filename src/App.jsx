@@ -1,4 +1,5 @@
 import { useTheme } from './hooks/useTheme';
+import { useReveal } from './hooks/useReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -13,6 +14,7 @@ const NAV_SECTIONS = ['home', 'expertise', 'work', 'experience', 'contact'];
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
+  useReveal();
 
   return (
     <>

@@ -27,11 +27,11 @@ export default function Expertise() {
   return (
     <section className="expertise section" id="expertise">
       <div className="container">
-        <h2 className="section__title">
+        <h2 className="section__title reveal">
           <span className="section__title-prefix">//</span> expertise
         </h2>
 
-        <div className="expertise__grid">
+        <div className="expertise__grid reveal">
           {expertise.map(item => (
             <div
               key={item.id}
@@ -49,7 +49,7 @@ export default function Expertise() {
           ))}
         </div>
 
-        <blockquote className="expertise__quote">
+        <blockquote className="expertise__quote reveal">
           <p>&ldquo;Sometimes the best way to solve a problem is to help others.&rdquo;</p>
           <cite>— Uncle Iroh, <em>Avatar: The Last Airbender</em></cite>
         </blockquote>

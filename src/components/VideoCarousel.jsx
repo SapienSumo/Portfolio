@@ -102,50 +102,48 @@ export default function VideoCarousel() {
     <div className="video-carousel reveal">
       <div className="video-carousel__head">
         <p className="video-carousel__label">Recent work in motion</p>
-        <div className="video-carousel__nav">
-          <button className="vc-arrow" onClick={() => nudge(-1)} aria-label="Previous project">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button className="vc-arrow" onClick={() => nudge(1)} aria-label="Next project">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-        </div>
       </div>
 
-      <div className="video-carousel__viewport">
-        <div className="video-carousel__track" ref={trackRef}>
-          {items.map((item, i) => {
-            const clone = i >= showcase.length;
-            const isLink = item.href && item.href !== '#';
-            const shared = {
-              className: 'vcard',
-              onMouseEnter: handleEnter,
-              onMouseLeave: handleLeave,
-              'aria-hidden': clone ? 'true' : undefined,
-            };
-            return isLink ? (
-              <a
-                key={i}
-                {...shared}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer noopener"
-                tabIndex={clone ? -1 : undefined}
-                aria-label={`${item.title} — open project in a new tab`}
-              >
-                <CardInner item={item} isLink />
-              </a>
-            ) : (
-              <div key={i} {...shared}>
-                <CardInner item={item} isLink={false} />
-              </div>
-            );
-          })}
+      <div className="video-carousel__body">
+        <button className="vc-arrow vc-arrow--prev" onClick={() => nudge(-1)} aria-label="Previous project">
+          <svg viewBox="0 0 24 48" aria-hidden="true"><polygon points="20,2 20,46 2,24" fill="currentColor" /></svg>
+        </button>
+
+        <div className="video-carousel__viewport">
+          <div className="video-carousel__track" ref={trackRef}>
+            {items.map((item, i) => {
+              const clone = i >= showcase.length;
+              const isLink = item.href && item.href !== '#';
+              const shared = {
+                className: 'vcard',
+                onMouseEnter: handleEnter,
+                onMouseLeave: handleLeave,
+                'aria-hidden': clone ? 'true' : undefined,
+              };
+              return isLink ? (
+                <a
+                  key={i}
+                  {...shared}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  tabIndex={clone ? -1 : undefined}
+                  aria-label={`${item.title} — open project in a new tab`}
+                >
+                  <CardInner item={item} isLink />
+                </a>
+              ) : (
+                <div key={i} {...shared}>
+                  <CardInner item={item} isLink={false} />
+                </div>
+              );
+            })}
+          </div>
         </div>
+
+        <button className="vc-arrow vc-arrow--next" onClick={() => nudge(1)} aria-label="Next project">
+          <svg viewBox="0 0 24 48" aria-hidden="true"><polygon points="4,2 4,46 22,24" fill="currentColor" /></svg>
+        </button>
       </div>
     </div>
   );

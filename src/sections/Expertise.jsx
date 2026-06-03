@@ -1,6 +1,9 @@
 import { expertise } from '../data/expertise';
 import VideoCarousel from '../components/VideoCarousel';
 import SectionTitle from '../components/SectionTitle';
+import SpotlightGrid from '../components/SpotlightGrid';
+
+const featuredIndex = Math.max(0, expertise.findIndex(i => i.featured));
 
 const icons = {
   1: (
@@ -31,12 +34,14 @@ export default function Expertise() {
       <div className="container">
         <SectionTitle>expertise</SectionTitle>
 
-        <div className="expertise__grid reveal">
-          {expertise.map(item => (
-            <div
-              key={item.id}
-              className={`expertise__card${item.featured ? ' expertise__card--featured' : ''}`}
-            >
+        <SpotlightGrid
+          gridClassName="expertise__grid reveal"
+          cardClassName="expertise__card"
+          items={expertise}
+          getKey={item => item.id}
+          defaultIndex={featuredIndex}
+          renderCard={item => (
+            <>
               <div className="expertise__icon">{icons[item.id]}</div>
               <h3 className="expertise__title">{item.title}</h3>
               <p className="expertise__desc">{item.desc}</p>
@@ -45,9 +50,9 @@ export default function Expertise() {
                   <li key={tag} className="tag">{tag}</li>
                 ))}
               </ul>
-            </div>
-          ))}
-        </div>
+            </>
+          )}
+        />
 
         <VideoCarousel />
       </div>

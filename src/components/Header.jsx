@@ -43,12 +43,27 @@ export default function Header({ toggleTheme }) {
 
   return (
     <header className={`header${scrolled ? ' scrolled' : ''}`} id="header">
+      {/* Gooey filter used by the nav pills to merge them like liquid */}
+      <svg className="goo-defs" aria-hidden="true" focusable="false">
+        <filter id="nav-goo" x="-20%" y="-50%" width="140%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </svg>
+
       <div className="container header__inner">
         <a href="#home" className="logo" onClick={closeMenu}>Paul Aliu</a>
 
         <nav className={`nav${menuOpen ? ' open' : ''}`} id="nav" ref={navRef}>
-          {/* Sliding pill — desktop only */}
-          <div className="nav__pill" style={pillStyle} aria-hidden="true" />
+          {/* Liquid sliding pill (gooey) — desktop only.
+              Two blobs chase the active link at different speeds so they
+              stretch and merge like a water droplet, then settle. */}
+          <div className="nav__pills" aria-hidden="true">
+            <span className="nav__pill nav__pill--trail" style={pillStyle} />
+            <span className="nav__pill nav__pill--lead" style={pillStyle} />
+          </div>
 
           <ul className="nav__list">
             {NAV_LINKS.map(({ href, label }) => (

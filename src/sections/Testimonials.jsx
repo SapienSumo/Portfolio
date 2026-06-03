@@ -1,5 +1,8 @@
 import { testimonials } from '../data/testimonials';
 import SectionTitle from '../components/SectionTitle';
+import SpotlightGrid from '../components/SpotlightGrid';
+
+const featuredIndex = Math.max(0, testimonials.findIndex(t => t.featured));
 
 const QuoteMark = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="testimonial__mark">
@@ -13,12 +16,14 @@ export default function Testimonials() {
       <div className="container">
         <SectionTitle>what clients say</SectionTitle>
 
-        <div className="testimonials__grid reveal">
-          {testimonials.map(t => (
-            <div
-              key={t.id}
-              className={`testimonial${t.featured ? ' testimonial--featured' : ''}`}
-            >
+        <SpotlightGrid
+          gridClassName="testimonials__grid reveal"
+          cardClassName="testimonial"
+          items={testimonials}
+          getKey={t => t.id}
+          defaultIndex={featuredIndex}
+          renderCard={t => (
+            <>
               <div className="testimonial__quote">
                 <QuoteMark />
                 <p>{t.quote}</p>
@@ -30,9 +35,9 @@ export default function Testimonials() {
                   <span>{t.role}</span>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            </>
+          )}
+        />
       </div>
     </section>
   );

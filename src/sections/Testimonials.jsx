@@ -1,4 +1,5 @@
 import { testimonials } from '../data/testimonials';
+import SectionTitle from '../components/SectionTitle';
 
 const QuoteMark = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="testimonial__mark">
@@ -10,9 +11,7 @@ export default function Testimonials() {
   return (
     <section className="testimonials section">
       <div className="container">
-        <h2 className="section__title reveal">
-          <span className="section__title-prefix">//</span> what clients say
-        </h2>
+        <SectionTitle>what clients say</SectionTitle>
 
         <div className="testimonials__grid reveal">
           {testimonials.map(t => (

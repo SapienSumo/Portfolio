@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SectionTitle from '../components/SectionTitle';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle'); // idle | sending | sent
@@ -17,9 +18,7 @@ export default function Contact() {
   return (
     <section className="contact section" id="contact">
       <div className="container">
-        <h2 className="section__title reveal">
-          <span className="section__title-prefix">//</span> contact
-        </h2>
+        <SectionTitle>contact</SectionTitle>
 
         <div className="contact__inner reveal">
           {/* Left: info */}

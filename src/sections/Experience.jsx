@@ -1,12 +1,11 @@
 import { experience } from '../data/experience';
+import SectionTitle from '../components/SectionTitle';
 
 export default function Experience() {
   return (
     <section className="experience section" id="experience">
       <div className="container">
-        <h2 className="section__title reveal">
-          <span className="section__title-prefix">//</span> experience
-        </h2>
+        <SectionTitle>experience</SectionTitle>
 
         <div className="timeline reveal">
           {experience.map(item => (

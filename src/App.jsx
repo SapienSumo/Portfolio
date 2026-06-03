@@ -10,19 +10,13 @@ import Experience from './sections/Experience';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 
-const NAV_SECTIONS = ['home', 'expertise', 'work', 'experience', 'contact'];
-
 export default function App() {
-  const { theme, toggleTheme } = useTheme();
+  const { toggleTheme } = useTheme();
   useReveal();
 
   return (
     <>
-      <Header
-        theme={theme}
-        toggleTheme={toggleTheme}
-        sections={NAV_SECTIONS}
-      />
+      <Header toggleTheme={toggleTheme} />
       <main>
         <Hero />
         <Expertise />

@@ -10,12 +10,15 @@ const NAV_LINKS = [
   { href: '#contact',    label: 'contact' },
 ];
 
-export default function Header({ theme, toggleTheme }) {
+// Stable reference so useScrollSpy doesn't re-subscribe on every render.
+const SECTION_IDS = NAV_LINKS.map(l => l.href.slice(1));
+
+export default function Header({ toggleTheme }) {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0, opacity: 0 });
 
-  const { scrolled } = useScrolled(20);
-  const activeId     = useScrollSpy(NAV_LINKS.map(l => l.href.slice(1)));
+  const scrolled = useScrolled(20);
+  const activeId = useScrollSpy(SECTION_IDS);
 
   const navRef   = useRef(null);
   const linkRefs = useRef({});

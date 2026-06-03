@@ -1,41 +1,7 @@
 import { useState } from 'react';
 import { projects, filters, spotlight } from '../data/projects';
-
-function ProjectCardSvg({ category }) {
-  if (category === 'data') {
-    return (
-      <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="320" height="200" fill="var(--card-bg)"/>
-        <polyline points="20,160 80,110 140,130 200,70 260,90 300,50" stroke="var(--accent)" strokeWidth="2" fill="none"/>
-        <circle cx="80" cy="110" r="4" fill="var(--accent)"/>
-        <circle cx="140" cy="130" r="4" fill="var(--accent)"/>
-        <circle cx="200" cy="70" r="4" fill="var(--accent)"/>
-        <circle cx="260" cy="90" r="4" fill="var(--accent)"/>
-        <rect x="20" y="170" width="280" height="1" fill="var(--text-muted)" opacity="0.2"/>
-      </svg>
-    );
-  }
-  if (category === 'app') {
-    return (
-      <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="320" height="200" fill="var(--card-bg)"/>
-        <rect x="110" y="10" width="100" height="180" rx="10" fill="var(--accent)" opacity="0.1"/>
-        <rect x="120" y="25" width="80" height="120" rx="4" fill="var(--accent)" opacity="0.15"/>
-        <circle cx="160" cy="165" r="8" fill="var(--accent)" opacity="0.3"/>
-      </svg>
-    );
-  }
-  return (
-    <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="200" fill="var(--card-bg)"/>
-      <rect x="20" y="20" width="280" height="30" rx="4" fill="var(--accent)" opacity="0.15"/>
-      <rect x="20" y="62" width="180" height="12" rx="2" fill="var(--text-muted)" opacity="0.3"/>
-      <rect x="20" y="82" width="140" height="12" rx="2" fill="var(--text-muted)" opacity="0.2"/>
-      <rect x="20" y="110" width="130" height="60" rx="4" fill="var(--accent)" opacity="0.1"/>
-      <rect x="165" y="110" width="135" height="60" rx="4" fill="var(--accent)" opacity="0.08"/>
-    </svg>
-  );
-}
+import SectionTitle from '../components/SectionTitle';
+import ProjectThumbnail from '../components/ProjectThumbnail';
 
 export default function Work() {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -47,9 +13,7 @@ export default function Work() {
   return (
     <section className="work section" id="work">
       <div className="container">
-        <h2 className="section__title reveal">
-          <span className="section__title-prefix">//</span> work
-        </h2>
+        <SectionTitle>work</SectionTitle>
 
         <p className="work__intro reveal">
           I&apos;ve built scalable <strong>travel, event and telemedicine</strong> applications used by
@@ -106,9 +70,9 @@ export default function Work() {
         {/* Project Grid */}
         <div className="work__grid">
           {visible.map(project => (
-            <article key={project.id} className="project-card" style={{ animation: 'fadeInCard 0.3s ease forwards' }}>
+            <article key={project.id} className="project-card">
               <div className="project-card__img">
-                <ProjectCardSvg category={project.category} />
+                <ProjectThumbnail category={project.category} />
               </div>
               <div className="project-card__body">
                 <span className="project-card__cat">{project.categoryLabel}</span>

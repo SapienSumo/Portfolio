@@ -1,40 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { projects, filters, spotlight } from '../data/projects';
 import SectionTitle from '../components/SectionTitle';
 import ProjectThumbnail from '../components/ProjectThumbnail';
-import sectionBackground from '../videos/work-section-background.mp4';
 
 export default function Work() {
   const [activeFilter, setActiveFilter] = useState('all');
-  const videoRef = useRef(null);
 
   const visible = projects.filter(p =>
     activeFilter === 'all' || p.category === activeFilter
   );
 
-  // Honour reduced-motion: hold the background video on its first frame.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      video.pause();
-    }
-  }, []);
-
   return (
     <section className="work section" id="work">
-      <video
-        ref={videoRef}
-        className="work__video"
-        src={sectionBackground}
-        autoPlay
-        loop
-        muted
-        playsInline
-        aria-hidden="true"
-      />
-      <div className="work__overlay" aria-hidden="true" />
-
       <div className="container">
         <SectionTitle>work</SectionTitle>
 

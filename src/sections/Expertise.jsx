@@ -2,7 +2,6 @@ import { expertise } from '../data/expertise';
 import VideoCarousel from '../components/VideoCarousel';
 import SectionTitle from '../components/SectionTitle';
 import SpotlightGrid from '../components/SpotlightGrid';
-import sectionBackground from '../images/expertise-section-background.png';
 
 const featuredIndex = Math.max(0, expertise.findIndex(i => i.featured));
 
@@ -32,9 +31,6 @@ const icons = {
 export default function Expertise() {
   return (
     <section className="expertise section" id="expertise">
-      <img className="expertise__bg" src={sectionBackground} alt="" aria-hidden="true" />
-      <div className="expertise__overlay" aria-hidden="true" />
-
       <div className="container">
         <SectionTitle>expertise</SectionTitle>
 

@@ -26,15 +26,14 @@ export default function SpotlightGrid({
   const [box, setBox] = useState(null);
 
   const measure = useCallback((index) => {
-    const container = containerRef.current;
     const card = cardRefs.current[index];
-    if (!container || !card) return;
-    const c = container.getBoundingClientRect();
-    const r = card.getBoundingClientRect();
-    const x = r.left - c.left;
+    if (!card) return;
+    // Layout offsets (not getBoundingClientRect) so the cards' scroll-in
+    // transform doesn't shift the spotlight while they animate into place.
+    const x = card.offsetLeft;
     if (prevX.current !== null) setDir(x >= prevX.current ? 'right' : 'left');
     prevX.current = x;
-    setBox({ x, y: r.top - c.top, w: r.width, h: r.height });
+    setBox({ x, y: card.offsetTop, w: card.offsetWidth, h: card.offsetHeight });
   }, []);
 
   useLayoutEffect(() => {
@@ -55,11 +54,6 @@ export default function SpotlightGrid({
 
   return (
     <div className={gridClassName} ref={containerRef}>
-      <div className="spotlight" data-dir={dir} style={overlayStyle} aria-hidden="true">
-        {/* keyed so the stretch animation replays on each move */}
-        <div className="spotlight__ring" key={active} />
-      </div>
-
       {items.map((item, i) => (
         <div
           key={getKey ? getKey(item) : i}
@@ -70,6 +64,13 @@ export default function SpotlightGrid({
           {renderCard(item, i)}
         </div>
       ))}
+
+      {/* Rendered after the cards so the stagger's :nth-child counts only cards.
+          Its z-index (not DOM order) keeps it layered correctly. */}
+      <div className="spotlight" data-dir={dir} style={overlayStyle} aria-hidden="true">
+        {/* keyed so the stretch animation replays on each move */}
+        <div className="spotlight__ring" key={active} />
+      </div>
     </div>
   );
 }

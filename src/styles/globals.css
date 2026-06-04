@@ -51,6 +51,7 @@
   --nav-prefix:       #cbb0ff;
   --shadow:           0 4px 24px rgba(0, 0, 0, 0.45);
   --shadow-lg:        0 8px 48px rgba(0, 0, 0, 0.6);
+  --overlay-tint:     rgba(12, 10, 18, 0.45);      /* scrim over section media */
 }
 
 /* LIGHT THEME */
@@ -77,6 +78,7 @@
   --nav-prefix:       #e0855a;
   --shadow:           0 4px 24px rgba(0, 0, 0, 0.08);
   --shadow-lg:        0 8px 48px rgba(0, 0, 0, 0.12);
+  --overlay-tint:     rgba(250, 250, 250, 0.55);   /* scrim over section media */
 }
 
 /* ============================================================
@@ -320,6 +322,29 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 600px; height: 600px;
   background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 2;
+}
+
+/* Looping background video */
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Scrim that keeps hero text readable over the video, in both themes */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, var(--bg) 0%, rgba(0, 0, 0, 0) 70%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, var(--bg) 100%);
 }
 
 .hero__inner {
@@ -328,7 +353,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   gap: 4rem;
   padding-block: 5rem;
+  position: relative;
+  z-index: 3;
 }
+
+.featured { position: relative; z-index: 3; }
 
 .hero__greeting {
   font-family: var(--font-mono);
@@ -432,6 +461,33 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ============================================================
    EXPERTISE
    ============================================================ */
+.expertise { position: relative; overflow: hidden; }
+
+/* Section background image + readability scrim */
+.expertise__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.expertise__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Fade the section colour in at the top/bottom edges so the image blends
+     into neighbouring sections, plus a light theme-aware tint for contrast. */
+  background:
+    linear-gradient(to bottom, var(--bg) 0%, transparent 18%, transparent 82%, var(--bg) 100%),
+    var(--overlay-tint);
+}
+
+.expertise > .container { position: relative; z-index: 2; }
+
 .expertise__grid {
   position: relative;                /* anchor for the spotlight overlay */
   display: grid;
@@ -606,6 +662,31 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ============================================================
    WORK
    ============================================================ */
+.work { position: relative; overflow: hidden; }
+
+/* Looping section background video + readability scrim */
+.work__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.work__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--bg) 0%, transparent 18%, transparent 82%, var(--bg) 100%),
+    var(--overlay-tint);
+}
+
+.work > .container { position: relative; z-index: 2; }
+
 .work__intro { font-size: var(--text-lg); color: var(--text-muted); max-width: 680px; margin-bottom: 2.5rem; line-height: 1.7; }
 .work__intro strong { color: var(--text); }
 
@@ -949,10 +1030,70 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ============================================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 0.68, 0.32, 1.2);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* --- Staggered child reveals -------------------------------------------------
+   A container marked `reveal reveal-stagger` doesn't move itself; instead its
+   children rise + fade in one after another once the container scrolls in.
+   Uses animations (not transitions) so freshly-rendered children — e.g. the
+   work grid re-rendering on a filter change — replay the entrance each time.
+   `:not(.spotlight)` skips the SpotlightGrid overlay so only real cards count. */
+@keyframes reveal-rise {
+  0%   { opacity: 0; transform: translateY(56px); }
+  65%  { opacity: 1; transform: translateY(-8px); }   /* slight overshoot for a livelier rise */
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons grow from a point and settle with a little bounce */
+@keyframes reveal-pop {
+  0%   { opacity: 0; transform: scale(0); }
+  70%  { opacity: 1; transform: scale(1.12); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* The container keeps its `.reveal` opacity fade (so the SpotlightGrid overlay
+   stays hidden until the section scrolls in) but doesn't slide itself — only
+   its children move. */
+.reveal-stagger,
+.reveal-pop { transform: none; }
+
+.reveal-stagger > *:not(.spotlight),
+.reveal-pop > * { opacity: 0; }
+
+.reveal-stagger.visible > *:not(.spotlight) {
+  opacity: 1;                                 /* resting state (no fill lock, so :hover still works) */
+  animation: reveal-rise 0.7s cubic-bezier(0.22, 0.68, 0.32, 1) backwards;
+}
+
+.reveal-pop.visible > * {
+  opacity: 1;
+  transform-origin: center;
+  animation: reveal-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+/* Sequential delays — one ramp covers cards (up to 12) and buttons (up to 6) */
+.reveal-stagger.visible > *:not(.spotlight):nth-child(1)  { animation-delay: 0.05s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(2)  { animation-delay: 0.11s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(3)  { animation-delay: 0.17s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(4)  { animation-delay: 0.23s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(5)  { animation-delay: 0.29s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(6)  { animation-delay: 0.35s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(7)  { animation-delay: 0.41s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(8)  { animation-delay: 0.47s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(9)  { animation-delay: 0.53s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(10) { animation-delay: 0.59s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(11) { animation-delay: 0.65s; }
+.reveal-stagger.visible > *:not(.spotlight):nth-child(12) { animation-delay: 0.71s; }
+
+.reveal-pop.visible > *:nth-child(1) { animation-delay: 0.08s; }
+.reveal-pop.visible > *:nth-child(2) { animation-delay: 0.16s; }
+.reveal-pop.visible > *:nth-child(3) { animation-delay: 0.24s; }
+.reveal-pop.visible > *:nth-child(4) { animation-delay: 0.32s; }
+.reveal-pop.visible > *:nth-child(5) { animation-delay: 0.40s; }
+.reveal-pop.visible > *:nth-child(6) { animation-delay: 0.48s; }
 
 /* ============================================================
    REDUCED MOTION

@@ -11,14 +11,14 @@ import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 
 export default function App() {
-  const { toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   useReveal();
 
   return (
     <>
       <Header toggleTheme={toggleTheme} />
       <main>
-        <Hero />
+        <Hero theme={theme} />
         <Expertise />
         <Work />
         <Experience />

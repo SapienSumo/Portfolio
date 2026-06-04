@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { projects, filters, spotlight } from '../data/projects';
 import SectionTitle from '../components/SectionTitle';
 import ProjectThumbnail from '../components/ProjectThumbnail';
+import sectionBackground from '../videos/work-section-background.mp4';
 
 export default function Work() {
   const [activeFilter, setActiveFilter] = useState('all');
+  const videoRef = useRef(null);
 
   const visible = projects.filter(p =>
     activeFilter === 'all' || p.category === activeFilter
   );
 
+  // Honour reduced-motion: hold the background video on its first frame.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      video.pause();
+    }
+  }, []);
+
   return (
     <section className="work section" id="work">
+      <video
+        ref={videoRef}
+        className="work__video"
+        src={sectionBackground}
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden="true"
+      />
+      <div className="work__overlay" aria-hidden="true" />
+
       <div className="container">
         <SectionTitle>work</SectionTitle>
 
@@ -21,7 +44,7 @@ export default function Work() {
         </p>
 
         {/* Filters */}
-        <div className="work__filters">
+        <div className="work__filters reveal reveal-pop">
           {filters.map(f => (
             <button
               key={f.key}
@@ -68,7 +91,7 @@ export default function Work() {
         </div>
 
         {/* Project Grid */}
-        <div className="work__grid">
+        <div className="work__grid reveal reveal-stagger">
           {visible.map(project => (
             <article key={project.id} className="project-card">
               <div className="project-card__img">

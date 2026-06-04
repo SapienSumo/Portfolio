@@ -7,7 +7,7 @@ export default function Experience() {
       <div className="container">
         <SectionTitle>experience</SectionTitle>
 
-        <div className="timeline reveal">
+        <div className="timeline reveal reveal-stagger">
           {experience.map(item => (
             <div key={item.id} className="timeline__item">
               <div className="timeline__dot" />

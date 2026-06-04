@@ -17,7 +17,7 @@ export default function Testimonials() {
         <SectionTitle>what clients say</SectionTitle>
 
         <SpotlightGrid
-          gridClassName="testimonials__grid reveal"
+          gridClassName="testimonials__grid reveal reveal-stagger"
           cardClassName="testimonial"
           items={testimonials}
           getKey={t => t.id}

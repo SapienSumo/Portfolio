@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
 
 /**
- * Reveals any element carrying the `.reveal` class as it scrolls into view
- * by adding `.visible` (see globals.css). Runs once on mount and re-scans
- * when `deps` change, so dynamically rendered blocks get picked up too.
+ * Toggles `.visible` on any element carrying the `.reveal` class as it enters
+ * and leaves the viewport (see globals.css). Because it re-arms on exit, the
+ * reveal animations replay every time you scroll a section back into view —
+ * not just on first load. Re-scans when `deps` change, so dynamically rendered
+ * blocks get picked up too.
  *
  * Respects prefers-reduced-motion: those users get everything shown at once.
  */
 export function useReveal(deps = []) {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal:not(.visible)');
+    const els = document.querySelectorAll('.reveal');
     if (!els.length) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -19,15 +21,13 @@ export function useReveal(deps = []) {
     }
 
     const observer = new IntersectionObserver(
-      (entries, obs) => {
+      (entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            obs.unobserve(entry.target);
-          }
+          // Toggle on enter/exit so the animation plays again on the next pass.
+          entry.target.classList.toggle('visible', entry.isIntersecting);
         });
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
     );
 
     els.forEach(el => observer.observe(el));

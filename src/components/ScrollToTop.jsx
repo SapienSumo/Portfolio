@@ -71,9 +71,11 @@ export default function ScrollToTop() {
 
   return (
     <a href="#home" className={cls} aria-label="Back to top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <polyline points="18 15 12 9 6 15"/>
-      </svg>
+      <span className="scroll-top__dots" aria-hidden="true">
+        <span className="scroll-top__dot scroll-top__dot--apex" />
+        <span className="scroll-top__dot scroll-top__dot--left" />
+        <span className="scroll-top__dot scroll-top__dot--right" />
+      </span>
     </a>
   );
 }

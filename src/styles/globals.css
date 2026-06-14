@@ -890,11 +890,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   bottom: 2rem;
   right: 2rem;
   z-index: 200;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--card-bg);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);   /* invisible, but keeps the pulse glow round */
+  background: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -902,12 +901,38 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease,
-              border-color 0.2s ease, color 0.2s ease,
-              background 0.2s ease, box-shadow 0.2s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
 }
 
-.scroll-top svg { width: 16px; height: 16px; }
+.scroll-top__dots {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+/* Each dot is centred on the shared orbit centre; the animation pushes it
+   out by --r and spins it around, so the transform alone draws the path. */
+.scroll-top__dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Differing radius, speed and direction make the three dots weave past one
+   another like drifting particles rather than bobbing in place. */
+.scroll-top__dot--apex  { --r: 8px;  animation: particle-orbit 3s   linear infinite; }
+.scroll-top__dot--left  { --r: 6px;  animation: particle-orbit 3.6s linear infinite reverse; animation-delay: -1.2s; }
+.scroll-top__dot--right { --r: 10px; animation: particle-orbit 2.6s linear infinite;         animation-delay: -0.6s; }
+
+@keyframes particle-orbit {
+  from { transform: rotate(0deg)   translateX(var(--r)) rotate(0deg);    }
+  to   { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+}
 
 .scroll-top--visible {
   opacity: 1;
@@ -915,33 +940,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateY(0);
 }
 
-.scroll-top:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-glow);
+.scroll-top:hover { color: var(--accent); }
+
+/* Pulse — at the bottom of the page the dots flash in accent colour to
+   draw the eye (the orbit keeps running; only opacity blinks). */
+.scroll-top--pulse { color: var(--accent); }
+
+.scroll-top--pulse .scroll-top__dots {
+  animation: scroll-flash 1.1s ease-in-out infinite;
 }
 
-/* Pulse — glows in accent colour when user is at the bottom */
-.scroll-top--pulse {
-  border-color: var(--accent);
-  color: var(--accent);
-  animation: scroll-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes scroll-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 var(--accent-glow-strong);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-    transform: scale(1.08);
-  }
+@keyframes scroll-flash {
+  0%, 100% { opacity: 1;    }
+  50%      { opacity: 0.15; }
 }
 
 /* Bounce — bouncy-ball jump to grab attention */
 .scroll-top--bounce {
-  border-color: var(--accent);
   color: var(--accent);
   animation: scroll-bounce 1.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
 }

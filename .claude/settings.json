@@ -13,7 +13,11 @@
       "Bash(rm -f hero-background.mp4)",
       "Bash(git check-ignore *)",
       "Bash(node -e \"const m=require\\('fs'\\).readFileSync\\('src/data/projects.js','utf8'\\); const f=\\(m.match\\(/filters\\\\s*=\\\\s*\\\\[\\([\\\\s\\\\S]*?\\)\\\\]/\\)||[]\\)[1]||''; console.log\\('filters entries:', \\(f.match\\(/key:/g\\)||[]\\).length\\); const p=\\(m.match\\(/projects\\\\s*=\\\\s*\\\\[\\([\\\\s\\\\S]*?\\)\\\\];/\\)||[]\\)[1]||''; console.log\\('projects entries:', \\(p.match\\(/id:/g\\)||[]\\).length\\);\")",
-      "Bash(npm --version)"
+      "Bash(npm --version)",
+      "WebFetch(domain:regentsplace.com)",
+      "WebSearch",
+      "Bash(node -e \"console.log\\('lenis@' + require\\('./node_modules/lenis/package.json'\\).version\\)\")",
+      "Bash(break)"
     ]
   }
 }

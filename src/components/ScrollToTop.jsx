@@ -8,15 +8,12 @@ export default function ScrollToTop() {
   const bouncingRef = useRef(false);
   const timerRef    = useRef(null);
 
-  // Show/hide + detect bottom
+  // Detect bottom (drives the at-bottom flash)
   useEffect(() => {
     function onScroll() {
-      const scrollY     = window.scrollY;
-      const nearBottom  =
-        window.innerHeight + scrollY >=
+      const nearBottom =
+        window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 80;
-
-      setVisible(scrollY > 400);
       setAtBottom(nearBottom);
     }
 
@@ -25,7 +22,8 @@ export default function ScrollToTop() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Bounce after 3s in the Contact (last) section
+  // Only reveal the button once the Contact (last) section is in view;
+  // bounce after 3s there to grab attention.
   useEffect(() => {
     const contactEl = document.getElementById('contact');
     if (!contactEl) return;
@@ -46,6 +44,7 @@ export default function ScrollToTop() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setVisible(entry.isIntersecting);
         if (entry.isIntersecting) {
           timerRef.current = setTimeout(triggerBounce, 3000);
         } else {

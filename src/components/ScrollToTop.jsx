@@ -69,7 +69,13 @@ export default function ScrollToTop() {
   ].filter(Boolean).join(' ');
 
   return (
-    <a href="#home" className={cls} aria-label="Back to top">
+    <a
+      href="#home"
+      className={cls}
+      aria-label="Back to top"
+      aria-hidden={!visible}
+      tabIndex={visible ? 0 : -1}
+    >
       <span className="scroll-top__dots" aria-hidden="true">
         <span className="scroll-top__dot scroll-top__dot--apex" />
         <span className="scroll-top__dot scroll-top__dot--left" />
